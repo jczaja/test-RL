@@ -1,12 +1,15 @@
 #include <QApplication>
-#include <QTextEdit>
+#include <grid.h>
+#include <memory>
+
 
 int main(int argv, char **args)
 {
   QApplication app(argv, args);
 
-  QTextEdit textEdit;
-  textEdit.show();
+  std::unique_ptr<Grid> siatka(new Grid(app)); 
+  siatka->show();
 
   return app.exec();
 }
+

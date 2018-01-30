@@ -22,7 +22,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets)
 
 # Tell CMake to create the helloworld executable
-add_executable(test-RL main.cpp)
+add_executable(test-RL main.cpp grid.cpp)
 
 # Use the Widgets module from Qt 5.
 target_link_libraries(test-RL Qt5::Widgets)
