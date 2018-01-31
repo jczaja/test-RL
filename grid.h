@@ -12,6 +12,9 @@ class Grid : public QWidget
   public:
     Grid(QApplication& app);
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
   private:
       QTextEdit *textEdit;
       QPushButton *quitButton;
