@@ -2,17 +2,24 @@
 
 Grid::Grid(QApplication& app)
 {
+  // Initialize dynamics
+ 
+  // Given action and what are state 
+ 
+  // Vector for each state we need for each action where it go 
 
-  //QTextEdit *textEdit = new QTextEdit;
-  //QPushButton *quitButton = new QPushButton("&Quit");
-
-  //QObject::connect(quitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
-
-  //QVBoxLayout *layout = new QVBoxLayout;
-  //layout->addWidget(textEdit);
-  //layout->addWidget(quitButton);
-
-  //setLayout(layout);
+  // Policy initialization
+  // Sectors from 0 - 15
+  policy.resize(num_states);
+  for(auto& policy_sector : policy) {
+      policy_sector.P_l = 0.25;
+      policy_sector.P_r = 0.25;
+      policy_sector.P_u = 0.25;
+      policy_sector.P_d = 0.25;
+  }
+  // 0 and 15 are terminal states
+  
+  
 
 }
 
@@ -27,8 +34,6 @@ void Grid::paintEvent(QPaintEvent * event)
 
     QRect rect(10, 20, 80, 60);
 
-
-    
     qreal top_left_x = 100.0;
     qreal top_left_y = 100.0;
     qreal length = 400.0;
