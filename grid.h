@@ -5,6 +5,29 @@
 #include <QTextEdit>
 #include <QtGui>
 #include <vector>
+#include <map>
+
+
+enum class direction {left, right, up, down};
+
+class Dynamics {
+ 
+  struct state_dynamic
+  {
+    std::map <direction,int> m_transitions;
+    float m_reward;
+  };
+ 
+  public:
+    Dynamics(int t0_x, int t0_y, int t1_x, int t1_y, int width, int height);
+  private:
+    void getDynamic(state_dynamic& dynstate, int loc_x, int loc_y);  
+  private:
+    int m_width;
+    int m_height;
+    std::vector<state_dynamic> m_dynamics;
+};
+
 
 class Grid : public QWidget
 {
@@ -17,14 +40,6 @@ class Grid : public QWidget
    //}Dynamic;
 
 
-   //struct {
-      //float P_l;
-      //float P_r;
-      //float P_u;
-      //float P_d;
-      //float Reward;   // Immediate reward
-   //} sector;
-
   struct state {
     float P_l;
     float P_r;
@@ -33,15 +48,17 @@ class Grid : public QWidget
   };
   
 
-    Grid(QApplication& app);
+  Grid(QApplication& app);
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
-  private:
-      QTextEdit *textEdit;
-      QPushButton *quitButton;
-      const int num_states = 16;
-      std::vector<state> policy; 
-  };
+private:
+  int t0_x,t0_y,t1_x,t1_y;  // terminal states
+  Dynamics m_env;
+  QTextEdit *textEdit;
+  QPushButton *quitButton;
+  const int num_states = 16;
+  std::vector<state> policy; 
+};
 #endif
