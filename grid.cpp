@@ -1,22 +1,24 @@
 #include "grid.h"
 
+
+//TODO: Make terminal states
 Dynamics::Dynamics(int t0_x, int t0_y, int t1_x, int t1_y, int width, int height) :
-                   m_width(width), m_height(height)
+                   m_t0_x(t0_x), m_t0_y(t0_y), m_t1_x(t1_x), m_t1_y(t1_y), m_width(width), m_height(height)
 {
   m_dynamics.resize(m_width*m_height);
   for (int h=0; h < m_height; ++h) {
     for(int w=0; w < m_width; ++w) {
-      getDynamic(m_dynamics[h*m_width+w],w,h);
+      computeDynamic(m_dynamics[h*m_width+w],w,h);
     }
   }
 }
 
-
-void Dynamics::getDynamic(state_dynamic& dynstate, int loc_x, int loc_y)  
+// Being at location: loc_x , loc_y , what are possible transitions
+void Dynamics::computeDynamic(state_dynamic& dynstate, int loc_x, int loc_y)  
 {
   // Default immediate reward is -1.0
   // for terminal state it is 10.0
-  if ((loc_x == 0 && loc_y == 0) || ((loc_x == m_width - 1) && (loc_y == m_height - 1))) {
+  if ((loc_x == m_t0_x && loc_y == m_t0_y) || ((loc_x == m_t1_x) && (loc_y == m_t1_y))) {
     dynstate.m_reward = 10.0;
   } else { 
     dynstate.m_reward = -1.0;
@@ -97,12 +99,17 @@ void Grid::paintEvent(QPaintEvent * event)
       path.lineTo(top_left_x +  hskip*i, top_left_y + length );
     }
 
+    // Fill terminal states
+    path.addRect(top_left_x + t0_x*vskip, top_left_y + t0_y*hskip,vskip,hskip);
+    path.addRect(top_left_x + t1_x*vskip, top_left_y + t1_y*hskip,vskip,hskip);
 
-
-    //path.cubicTo(80, 0, 50, 50, 80, 80);
 
     QPainter painter(this);
     painter.setPen(QColor(0,0,0));
+    //QLinearGradient myGradient;
+    QBrush brush(QColor(255,255,0)); 
+    //QBrush brush(myGradient); 
+    painter.setBrush(brush);
     painter.drawPath(path);
     ///int startAngle = 20 * 16;
     //int arcLength = 120 * 16;

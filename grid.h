@@ -21,8 +21,9 @@ class Dynamics {
   public:
     Dynamics(int t0_x, int t0_y, int t1_x, int t1_y, int width, int height);
   private:
-    void getDynamic(state_dynamic& dynstate, int loc_x, int loc_y);  
+    void computeDynamic(state_dynamic& dynstate, int loc_x, int loc_y);  
   private:
+    int m_t0_x, m_t0_y, m_t1_x, m_t1_y;
     int m_width;
     int m_height;
     std::vector<state_dynamic> m_dynamics;
