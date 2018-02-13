@@ -59,17 +59,35 @@ void Dynamics::computeDynamic(state_dynamic& dynstate, int loc_x, int loc_y)
 }
 
 
-Grid::Grid(QApplication& app) : t0_x(0), t0_y(0), t1_x(3), t1_y(3), m_env(0,0,3,3,4,4)
+Policy::Policy(int num_states)
 {
-  // Policy initialization
-  // Sectors from 0 - 15
-  policy.resize(num_states);
-  for(auto& policy_state : policy) {
+  m_policy.resize(num_states);
+
+  // Initial uniform policy
+  for(auto& policy_state : m_policy) {
       policy_state.P_l = 0.25;
       policy_state.P_r = 0.25;
       policy_state.P_u = 0.25;
       policy_state.P_d = 0.25;
   }
+}
+
+
+float Policy::evaluateState(state& stan)
+{
+  return 0.0f;
+}
+
+
+// compute the expected value of policy
+void Policy::evaluate(void)
+{
+  // What is start state
+}
+
+Grid::Grid(QApplication& app, int num_states) : t0_x(0), t0_y(0), t1_x(3), m_num_states(num_states), 
+                                                t1_y(3), m_env(0,0,3,3,4,4), m_policy(num_states)
+{
 }
 
 void Grid::paintEvent(QPaintEvent * event)

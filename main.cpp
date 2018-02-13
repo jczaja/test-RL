@@ -7,7 +7,7 @@ int main(int argv, char **args)
 {
   QApplication app(argv, args);
 
-  std::unique_ptr<Grid> siatka(new Grid(app)); 
+  std::unique_ptr<Grid> siatka(new Grid(app,16)); 
   siatka->show();
 
   return app.exec();
