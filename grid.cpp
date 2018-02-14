@@ -59,7 +59,20 @@ void Dynamics::computeDynamic(state_dynamic& dynstate, int loc_x, int loc_y)
 }
 
 
-Policy::Policy(int num_states)
+bool Dynamics::isStateTerminal(int i)
+{
+  // Get x and y coords from index of states
+  int x = i%m_width;
+  int y = i%m_height;
+
+  if ((x == m_t0_x && y == m_t0_y) || (x == m_t1_x && y == m_t1_y)) {
+    return true;
+  }
+  return false;
+}
+
+
+Policy::Policy(int num_states): m_env(0,0,3,3,4,4)
 {
   m_policy.resize(num_states);
 
@@ -73,7 +86,7 @@ Policy::Policy(int num_states)
 }
 
 
-float Policy::evaluateState(state& stan)
+float Policy::evaluateState(int i)
 {
   return 0.0f;
 }
@@ -83,11 +96,21 @@ float Policy::evaluateState(state& stan)
 void Policy::evaluate(void)
 {
   // What is start state
+  // For all states
+  std::fill(m_policy_evaluation.begin(), m_policy_evaluation.end(), 0.0f);
+
+  int num_states = m_policy.size();
+  for (int i=0; i< num_states; ++i) {
+    m_policy_evaluation[i] = this->evaluateState(i);
+  }
 }
 
+
 Grid::Grid(QApplication& app, int num_states) : t0_x(0), t0_y(0), t1_x(3), m_num_states(num_states), 
-                                                t1_y(3), m_env(0,0,3,3,4,4), m_policy(num_states)
+                                                t1_y(3), m_policy(num_states)
 {
+  // Initial evaluation
+  m_policy.evaluate();
 }
 
 void Grid::paintEvent(QPaintEvent * event)
@@ -131,4 +154,12 @@ void Grid::paintEvent(QPaintEvent * event)
     painter.drawPath(path);
     ///int startAngle = 20 * 16;
     //int arcLength = 120 * 16;
+}
+
+
+void Grid::rundp(void)
+{
+  // Call policy iteration
+  // Call polocy evaluation
+  // Update drawing area
 }

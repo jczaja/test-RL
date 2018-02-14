@@ -9,6 +9,7 @@ int main(int argv, char **args)
 
   std::unique_ptr<Grid> siatka(new Grid(app,16)); 
   siatka->show();
+  siatka->rundp();
 
   return app.exec();
 }
