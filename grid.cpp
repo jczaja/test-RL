@@ -72,6 +72,12 @@ bool Dynamics::isStateTerminal(int i)
 }
 
 
+float Dynamics::getReward(int i)
+{
+  return m_dynamics[i].m_reward;
+}
+
+
 Policy::Policy(int num_states): m_env(0,0,3,3,4,4)
 {
   m_policy.resize(num_states);
@@ -88,6 +94,16 @@ Policy::Policy(int num_states): m_env(0,0,3,3,4,4)
 
 float Policy::evaluateState(int i)
 {
+  // If terminal state then return reward immediatly and
+  // finish evaluation
+  if (m_env.isStateTerminal(i))  
+    m_env.getReward(i);
+
+  // If not terminal then
+  // Evaluate next states
+  
+  // Sum of rewards
+  
   return 0.0f;
 }
 

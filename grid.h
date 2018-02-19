@@ -21,6 +21,7 @@ class Dynamics {
   public:
     Dynamics(int t0_x, int t0_y, int t1_x, int t1_y, int width, int height);
     bool isStateTerminal(int i);
+    float getReward(int i);
   private:
     void computeDynamic(state_dynamic& dynstate, int loc_x, int loc_y);  
   private:
@@ -42,7 +43,7 @@ class Policy {
     Policy(int num_states);
     void evaluate(void);
   private:
-    float evaluateState(i);
+    float evaluateState(int i);
 
   private:
     Dynamics m_env;
