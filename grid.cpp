@@ -78,7 +78,13 @@ float Dynamics::getReward(int i)
 }
 
 
-Policy::Policy(int num_states): m_env(0,0,3,3,4,4)
+int Dynamics::getNextState(int curr, direction direct)
+{
+  return m_dynamics[curr].m_transitions[direct]; 
+}
+
+
+Policy::Policy(int num_states): m_env(0,0,3,3,4,4), m_policy_evaluation(num_states,0.0f)
 {
   m_policy.resize(num_states);
 
@@ -94,17 +100,19 @@ Policy::Policy(int num_states): m_env(0,0,3,3,4,4)
 
 float Policy::evaluateState(int i)
 {
-  // If terminal state then return reward immediatly and
-  // finish evaluation
-  if (m_env.isStateTerminal(i))  
-    m_env.getReward(i);
-
-  // If not terminal then
-  // Evaluate next states
+  // Get state reward
+  float reward = m_env.getReward(i);
+  // If terminal state then return reward immediatly and finish evaluation
+  if (m_env.isStateTerminal(i) == false) {  
+    // If not terminal then 
+    // Evaluate next states
+    reward += m_policy[i].P_l*this->evaluateState(m_env.getNextState(i,direction::left));    
+    reward += m_policy[i].P_r*this->evaluateState(m_env.getNextState(i,direction::right));    
+    reward += m_policy[i].P_u*this->evaluateState(m_env.getNextState(i,direction::up));    
+    reward += m_policy[i].P_d*this->evaluateState(m_env.getNextState(i,direction::down));    
+  } 
   
-  // Sum of rewards
-  
-  return 0.0f;
+  return reward;
 }
 
 

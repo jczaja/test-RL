@@ -22,6 +22,7 @@ class Dynamics {
     Dynamics(int t0_x, int t0_y, int t1_x, int t1_y, int width, int height);
     bool isStateTerminal(int i);
     float getReward(int i);
+    int getNextState(int curr, direction direct);
   private:
     void computeDynamic(state_dynamic& dynstate, int loc_x, int loc_y);  
   private:
@@ -56,25 +57,17 @@ class Grid : public QWidget
   Q_OBJECT
 
   public:
-  //// Probability that from
-   //struct {
-      
-   //}Dynamic;
+    Grid(QApplication& app, int num_states);
+    void rundp(void);
 
+  protected:
+    void paintEvent(QPaintEvent *event) override;
 
-  
-
-  Grid(QApplication& app, int num_states);
-  void rundp(void);
-
-protected:
-  void paintEvent(QPaintEvent *event) override;
-
-private:
-  int t0_x,t0_y,t1_x,t1_y;  // terminal states
-  const int m_num_states;
-  Policy m_policy;
-  QTextEdit *textEdit;
-  QPushButton *quitButton;
+  private:
+    int t0_x,t0_y,t1_x,t1_y;  // terminal states
+    const int m_num_states;
+    Policy m_policy;
+    QTextEdit *textEdit;
+    QPushButton *quitButton;
 };
 #endif
